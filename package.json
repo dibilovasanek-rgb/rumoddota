@@ -1,0 +1,30 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "vitepress dev",
+        "build": "vitepress build",
+        "preview": "vitepress preview",
+        "lint": "npm run lint:prettier",
+        "lint:prettier": "prettier --check .",
+        "fix:prettier": "prettier --write ."
+    },
+    "prettier": {
+        "printWidth": 120,
+        "trailingComma": "all",
+        "overrides": [
+            {
+                "files": "*.md",
+                "options": {
+                    "parser": "mdx",
+                    "printWidth": 100,
+                    "tabWidth": 2,
+                    "singleQuote": true
+                }
+            }
+        ]
+    },
+    "devDependencies": {
+        "prettier": "^3.0.0",
+        "vitepress": "^1.6.3"
+    }
+}
