@@ -1,0 +1,42 @@
+import{_ as n,o as a,c as e,ag as p}from"./chunks/framework.DUTPmUpA.js";const d=JSON.parse('{"title":"Сочетания клавиш","description":"","frontmatter":{"title":"Сочетания клавиш","author":"ole","steamId":"76561197966853265","date":"24.07.2015"},"headers":[],"relativePath":"panorama/keybindings.md","filePath":"panorama/keybindings.md"}'),l={name:"panorama/keybindings.md"};function t(o,s,i,r,u,c){return a(),e("div",null,[...s[0]||(s[0]=[p(`<p>четания клавиш</p><h2 id="введение" tabindex="-1">Введение <a class="header-anchor" href="#введение" aria-label="Permalink to &quot;Введение&quot;">​</a></h2><p>В недавнем обновлении (20 июля) Valve добавила поддержку пользовательских сочетаний клавиш. То есть вы можете привязать клавиши для запуска специальной команды.</p><p>Используемая техника заимствована из rpg_example.</p><p>Хотя этот метод не обязательно ограничивается панорамой, в этом уроке основное внимание будет уделено их использованию в панораме.</p><h2 id="настраивать" tabindex="-1">Настраивать <a class="header-anchor" href="#настраивать" aria-label="Permalink to &quot;Настраивать&quot;">​</a></h2><p>Начните с добавления пары строк в файл <code>addoninfo.txt</code>, расположенный в <code>/game/&lt;your addon&gt;/addoninfo.txt</code>.</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>&quot;AddonInfo&quot;</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>  &quot;TeamCount&quot; &quot;10&quot;</span></span>
+<span class="line"><span>  &quot;maps&quot;      &quot;your_map&quot;</span></span>
+<span class="line"><span>  &quot;IsPlayable&quot;  &quot;1&quot;</span></span>
+<span class="line"><span>  &quot;your_map&quot;</span></span>
+<span class="line"><span>  {</span></span>
+<span class="line"><span>          &quot;MaxPlayers&quot;                    &quot;10&quot;</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>  &quot;Default_Keys&quot;</span></span>
+<span class="line"><span>    {</span></span>
+<span class="line"><span>        &quot;01&quot;</span></span>
+<span class="line"><span>        {</span></span>
+<span class="line"><span>            &quot;Key&quot;       &quot;S&quot;</span></span>
+<span class="line"><span>            &quot;Command&quot;   &quot;CustomGameExecuteAbility1&quot;</span></span>
+<span class="line"><span>            &quot;Name&quot;      &quot;Execute Ability 1&quot;</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>        &quot;02&quot;</span></span>
+<span class="line"><span>        {</span></span>
+<span class="line"><span>            &quot;Key&quot;       &quot;Z&quot;</span></span>
+<span class="line"><span>            &quot;Command&quot;   &quot;+CustomGameTestButton&quot;</span></span>
+<span class="line"><span>            &quot;Name&quot;      &quot;Example&quot;</span></span>
+<span class="line"><span>        }</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br></div></div><p>Важными частями, конечно же, являются то, что определено в <code>&quot;Default_Keys&quot;</code>.</p><p><code>&quot;Key&quot;</code> это ключ, который вы хотите связать, используйте здесь заглавные буквы</p><p><code>&quot;Command&quot;</code> это команда для запуска, убедитесь, что имя команды уникально.<br> Префикс команды определяет, когда сработает команда.</p><p><code>&quot;Name&quot;</code> Имя команды, используемой в целях отладки.</p><h4 id="префиксы-команд" tabindex="-1">Префиксы команд <a class="header-anchor" href="#префиксы-команд" aria-label="Permalink to &quot;Префиксы команд&quot;">​</a></h4><table tabindex="0"><thead><tr><th>Префикс</th><th>Пример</th><th>Описание</th></tr></thead><tbody><tr><td><em>(ничего)</em></td><td><em>команда</em></td><td>Команда сработает при нажатии и отпускании</td></tr><tr><td>*<strong>+</strong></td><td><em>+команда</em></td><td>Триггер при нажатии клавиши (используется для обычного нажатия клавиши)</td></tr><tr><td><strong>-</strong></td><td><em>-команда</em></td><td>Команда сработает при отпускании клавиши</td></tr></tbody></table><p>Префиксы не блокируют запуск команды только в этом событии. Но это хорошая ссылка на то, что вы хотите, чтобы привязка клавиш делала.</p><h2 id="панорама" tabindex="-1">Панорама <a class="header-anchor" href="#панорама" aria-label="Permalink to &quot;Панорама&quot;">​</a></h2><p>Перехватить команды привязки клавиш в Panorama легко:</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>js</span></span>
+<span class="line"><span>function OnExecuteAbility1ButtonPressed() {</span></span>
+<span class="line"><span>  $.Msg(&quot;&#39;S&#39; Pressed or Released&quot;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function OnTestButtonPressed() {</span></span>
+<span class="line"><span>  $.Msg(&quot;&#39;Z&#39; Pressed&quot;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function OnTestButtonReleased() {</span></span>
+<span class="line"><span>  $.Msg(&quot;&#39;Z&#39; Released&quot;);</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>(function () {</span></span>
+<span class="line"><span>  Game.AddCommand(&#39;CustomGameExecuteAbility1&#39;, OnExecuteAbility1ButtonPressed, &#39;&#39;, 0);</span></span>
+<span class="line"><span>  Game.AddCommand(&#39;+CustomGameTestButton&#39;, OnTestButtonPressed, &#39;&#39;, 0);</span></span>
+<span class="line"><span>  Game.AddCommand(&#39;-CustomGameTestButton&#39;, OnTestButtonReleased, &#39;&#39;, 0);</span></span>
+<span class="line"><span>})();</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br></div></div><p>Обратите внимание, как снова используются префиксы. Несмотря на то, что мы определили запуск <code>CustomGameTestButton</code> только при нажатии клавиши, мы также можем легко перехватить событие выпуска в нашем JS.</p>`,19)])])}const m=n(l,[["render",t]]);export{d as __pageData,m as default};

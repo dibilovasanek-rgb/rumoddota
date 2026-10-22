@@ -1,0 +1,58 @@
+import{_ as n,o as a,c as e,ag as p}from"./chunks/framework.DUTPmUpA.js";const d=JSON.parse('{"title":"Сфера Линкена и сфера лотоса","description":"","frontmatter":{"title":"Сфера Линкена и сфера лотоса","author":"DrTeaSpoon","steamId":"76561197975484185","date":"22.08.2016"},"headers":[],"relativePath":"abilities/lua-modifiers/2.md","filePath":"abilities/lua-modifiers/2.md"}'),l={name:"abilities/lua-modifiers/2.md"};function i(r,s,t,c,b,o){return a(),e("div",null,[...s[0]||(s[0]=[p(`<h1 id="сфера-линкена-и-сфера-лотоса" tabindex="-1">Сфера Линкена и сфера лотоса <a class="header-anchor" href="#сфера-линкена-и-сфера-лотоса" aria-label="Permalink to &quot;Сфера Линкена и сфера лотоса&quot;">​</a></h1><p>Когда вы пишете свои целевые способности Lua, у вас могла возникнуть проблема с неработающей защитой от таких заклинаний. Сфера Линкена и Сфера Лотоса. Чтобы эти элементы повлияли на вашу новую крутую способность, вам нужно всего лишь добавить эту строку в свой код:</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>lua</span></span>
+<span class="line"><span>if hTarget:TriggerSpellAbsorb( self ) then return end</span></span>
+<span class="line"><span>\`</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>hTarget<code>в этом примере предполагается целевым устройством.</code>self<code>— это ваша способность. Он используется такими способностями, как сфера лотоса, чтобы знать, какое заклинание отправить обратно.</code>hTarget:TriggerSpellAbsorb( self )\` возвращает true, только если у игрока есть Сфера Линкена или какой-либо специальный элемент, закодированный для выполнения аналогичной функции. В случае Lotus Orb та же строка запускает Lotus Orb, но всегда возвращает false. Теперь, чтобы создать свои собственные эффекты, подобные Lotus/Linken, вот два объявления функций:</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>lua</span></span>
+<span class="line"><span>function my_modifier:DeclareFunctions()</span></span>
+<span class="line"><span>    local funcs = {</span></span>
+<span class="line"><span>        MODIFIER_PROPERTY_REFLECT_SPELL, --Lotus Orb trigger.</span></span>
+<span class="line"><span>        MODIFIER_PROPERTY_ABSORB_SPELL --Linken&#39;s Sphere trigger.</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    return funcs</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function my_modifier:GetReflectSpell(keys)</span></span>
+<span class="line"><span>  print(&quot;you cast your spell on me!&quot;)</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>function my_modifier:GetAbsorbSpell(keys)</span></span>
+<span class="line"><span>  if something then</span></span>
+<span class="line"><span>      print(&quot;counter spell!&quot;)</span></span>
+<span class="line"><span>       return 1 --conditions were met, lets return 1 to block the spell.</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>    return false --do nothing and let the spell through.</span></span>
+<span class="line"><span>end</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br></div></div><p>В случае со сферой Linken код в значительной степени проверяет время восстановления исходной способности, а если время восстановления не установлено, воспроизводите эффект, возвращаете 1.</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>lua</span></span>
+<span class="line"><span>function my_modifier:GetAbsorbSpell(keys)</span></span>
+<span class="line"><span>    local hAbility = self:GetAbility()</span></span>
+<span class="line"><span>    if hAbility:IsCooldownReady() then</span></span>
+<span class="line"><span>    --your cool effect here.</span></span>
+<span class="line"><span>    hAbility:StartCooldown(hAbility:GetCooldown(hAbility:GetLevel()))</span></span>
+<span class="line"><span>    return 1</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>    return false</span></span>
+<span class="line"><span>end</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><p>Просто, правда? Lotus Orb немного сложнее, и даже моя версия не полностью проверена на наличие ошибок, но до сих пор она работала отлично.</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>lua</span></span>
+<span class="line"><span>function my_modifier:GetReflectSpell(keys)</span></span>
+<span class="line"><span>    if self.stored ~= nil then</span></span>
+<span class="line"><span>        self.stored:RemoveSelf() --we make sure to remove previous spell.</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>    local hCaster = self:GetParent()</span></span>
+<span class="line"><span>    local hAbility = hCaster:AddAbility(kv.ability:GetAbilityName())</span></span>
+<span class="line"><span>    hAbility:SetStolen(true) --just to be safe with some interactions.</span></span>
+<span class="line"><span>    hAbility:SetHidden(true) --hide the ability.</span></span>
+<span class="line"><span>    hAbility:SetLevel(kv.ability:GetLevel()) --same level of ability as the origin.</span></span>
+<span class="line"><span>    hCaster:SetCursorCastTarget(kv.ability:GetCaster()) --lets send this spell back.</span></span>
+<span class="line"><span>    hAbility:OnSpellStart() --cast the spell.</span></span>
+<span class="line"><span>    self.stored = hAbility --store the spell reference for future use.</span></span>
+<span class="line"><span>end</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>Причина, по которой мы удаляем сохраненное заклинание при следующем срабатывании, заключается в том, чтобы убедиться в отсутствии нулевой ссылки. Например, если модификатор, созданный заклинанием, попытается получить доступ к исходному заклинанию, и если бы мы удалили его сразу после применения, игра выдала бы сообщение об ошибке. Несколько идей, как вы могли бы использовать все, что узнали здесь: -Создайте комбинацию лотоса и звенящей сферы. (блокировать и отражать) -Пассивный, отражающий каждое третье заклинание. -Пассивный, который блокирует заклинание и дает вам использованную на него ману. -Моргайте и отделяйте снаряды, когда против вас наложено заклинание.</p><p>Вот небольшой фрагмент кода, который поможет вам начать работу с миганием:</p><div class="language- vp-adaptive-theme line-numbers-mode"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code" tabindex="0"><code><span class="line"><span>lua</span></span>
+<span class="line"><span>function my_modifier:Blink(hTarget, vPoint, nMaxBlink, nClamp)</span></span>
+<span class="line"><span>    local vOrigin = hTarget:GetAbsOrigin() --Our units&#39;s location</span></span>
+<span class="line"><span>    ProjectileManager:ProjectileDodge(hTarget)  --We disjoint disjointable incoming projectiles.</span></span>
+<span class="line"><span>    ParticleManager:CreateParticle(&quot;particles/items_fx/blink_dagger_start.vpcf&quot;, PATTACH_ABSORIGIN, hTarget) --Create particle effect at our caster.</span></span>
+<span class="line"><span>    hTarget:EmitSound(&quot;DOTA_Item.BlinkDagger.Activate&quot;) --Emit sound for the blink</span></span>
+<span class="line"><span>    local vDiff = vPoint - vOrigin --Difference between the points</span></span>
+<span class="line"><span>    if vDiff:Length2D() &gt; nMaxBlink then  --Check caster is over reaching.</span></span>
+<span class="line"><span>        vPoint = vOrigin + (vPoint - vOrigin):Normalized() * nClamp -- Recalculation of the target point.</span></span>
+<span class="line"><span>    end</span></span>
+<span class="line"><span>    hTarget:SetAbsOrigin(vPoint) --We move the caster instantly to the location</span></span>
+<span class="line"><span>    FindClearSpaceForUnit(hTarget, vPoint, false) --This makes sure our caster does not get stuck</span></span>
+<span class="line"><span>    ParticleManager:CreateParticle(&quot;particles/items_fx/blink_dagger_end.vpcf&quot;, PATTACH_ABSORIGIN, hTarget) --Create particle effect at our caster.</span></span>
+<span class="line"><span>end</span></span>
+<span class="line"><span>\`\`\`Следующая тема: [Transformations](3)</span></span></code></pre><div class="line-numbers-wrapper" aria-hidden="true"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br></div></div>`,12)])])}const m=n(l,[["render",i]]);export{d as __pageData,m as default};

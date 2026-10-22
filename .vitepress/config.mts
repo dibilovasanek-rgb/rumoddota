@@ -6,7 +6,7 @@ export default defineConfig({
     lang: "ru-RU",
     head: [["link", { rel: "icon", href: "/images/favicon.ico" }]],
     srcDir: "_articles",
-    outDir: "build",
+    outDir: "dist",
     cleanUrls: true,
     ignoreDeadLinks: [/\.fbx$/],
     assetsDir: "_assets", // Do not conflict with assets articles
